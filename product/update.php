@@ -24,7 +24,9 @@ $data = json_decode(file_get_contents("php://input"));
 //set Id and values of product to be edited
 $product->id            = $data->id;
 $product->name          = $data->name;
-$product->price         = $data->price;
+$product->new_price         = $data->new_price;
+$product->old_price         = $data->old_price;
+
 $product->content   = $data->content;
 $product->category_id   = $data->category_id;
 

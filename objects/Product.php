@@ -14,7 +14,8 @@ class Product
     public $id;
     public $name;
     public $content;
-    public $price;
+    public $new_price ;
+    public $old_price ;
     public $category_id;
     public $category_name;
     public $created;
@@ -31,21 +32,23 @@ function create(){
     $query = "INSERT INTO
                 " . $this->table_name . "
             SET
-                name=:name, price=:price, content=:content, category_id=:category_id, created=:created";
+                name=:name, new_price=:new_price,old_price=:old_price, content=:content, category_id=:category_id, created=:created";
  
     // prepare query
     $stmt = $this->conn->prepare($query);
  
     // sanitize
     $this->name=htmlspecialchars(strip_tags($this->name));
-    $this->price=htmlspecialchars(strip_tags($this->price));
+    $this->new_price=htmlspecialchars(strip_tags($this->new_price));
+    $this->old_price=htmlspecialchars(strip_tags($this->old_price));
     $this->content=htmlspecialchars(strip_tags($this->content));
     $this->category_id=htmlspecialchars(strip_tags($this->category_id));
     $this->created=htmlspecialchars(strip_tags($this->created));
  
     // bind values
     $stmt->bindParam(":name", $this->name);
-    $stmt->bindParam(":price", $this->price);
+    $stmt->bindParam(":new_price", $this->new_price);
+    $stmt->bindParam(":old_price", $this->old_price);
     $stmt->bindParam(":content", $this->content);
     $stmt->bindParam(":category_id", $this->category_id);
     $stmt->bindParam(":created", $this->created);
@@ -64,7 +67,7 @@ function create(){
 
         //select all
         $query = "SELECT
-                    c.name AS category_name, p.id, p.name, p.content, p.price, p.category_id, p.created
+                    c.name AS category_name, p.id, p.name, p.content, p.new_price,p.old_price, p.category_id, p.created
                   FROM
                   " . $this->table_name . " p
                   LEFT JOIN
@@ -88,7 +91,7 @@ function create(){
 
         //read single record
         $query = "SELECT
-                c.name as category_name, p.id, p.name, p.content, p.price, p.category_id, p.created
+                c.name as category_name, p.id, p.name, p.content, p.new_price,p.old_price, p.category_id, p.created
             FROM
                 " . $this->table_name . " p
                    LEFT JOIN
@@ -110,7 +113,8 @@ function create(){
 
         //set values to update
         $this->name=$row['name'];
-        $this->price=$row['price'];
+        $this->new_price=$row['new_price'];
+        $this->old_price=$row['old_price'];
         $this->content=$row['content'];
         $this->category_id=$row['category_id'];
         $this->category_name=$row['category_name'];
@@ -127,7 +131,8 @@ function create(){
                     " . $this->table_name. "
                     SET
                         name=:name,
-                        price=:price,
+                        new_price=:new_price,
+                        old_price=:old_price,
                         content=:content,
                         category_id=:category_id
                     WHERE
@@ -138,14 +143,16 @@ function create(){
 
         //sanitize
         $this->name=htmlspecialchars(strip_tags($this->name));
-        $this->price=htmlspecialchars(strip_tags($this->price));
+        $this->new_price=htmlspecialchars(strip_tags($this->new_price));
+        $this->old_price=htmlspecialchars(strip_tags($this->old_price));        
         $this->content=htmlspecialchars(strip_tags($this->content));
         $this->category_id=htmlspecialchars(strip_tags($this->category_id));
         $this->id=htmlspecialchars(strip_tags($this->id));
 
         //bind new values
         $stmt->bindParam(':name', $this->name);
-        $stmt->bindParam(':price', $this->price);
+        $stmt->bindParam(':new_price', $this->new_price);
+        $stmt->bindParam(':old_price', $this->old_price);
         $stmt->bindParam(':content', $this->content);
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':id', $this->id);
@@ -186,7 +193,7 @@ function create(){
 
         //select all query
         $query = "SELECT
-                    c.name as category_name, p.id, p.name, p.content, p.price, p.category_id, p.created
+                    c.name as category_name, p.id, p.name, p.content, p.new_price,p.old_price, p.category_id, p.created
                   FROM " . $this->table_name. " p
                   LEFT JOIN
                     categories c ON p.category_id = c.id
@@ -218,7 +225,7 @@ function create(){
 
         //select
         $query = "SELECT
-                    c.name as category_name, p.id, p.name, p.content, p.price, p.category_id, p.created
+                    c.name as category_name, p.id, p.name, p.content, p.new_price,p.old_price, p.category_id, p.created
                   FROM " . $this->table_name . " p
                   LEFT JOIN
                     categories c ON p.category_id = c.id

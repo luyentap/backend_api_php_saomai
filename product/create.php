@@ -22,7 +22,8 @@ $data = json_decode(file_get_contents("php://input"));
 
 //set product values
 $product->name          = $data->name;
-$product->price         = $data->price;
+$product->new_price = $data->new_price;
+$product->old_price         = $data->old_price;
 $product->content   = $data->content;
 $product->category_id   = $data->category_id;
 $product->created       = date('Y-m-d H:i:s');
@@ -49,19 +50,21 @@ function create(){
     //Prepare
     $stmt = $this->conn->prepare($query);
 
-    //sanitize
-    $this->name=htmlspecialchars(strip_tags($this->name));
-    $this->price=htmlspecialchars(strip_tags($this->price));
-    $this->content=htmlspecialchars(strip_tags($this->content));
-    $this->category_id=htmlspecialchars(strip_tags($this->category_id));
-    $this->created=htmlspecialchars(strip_tags($this->created));
+   //sanitize
+   $this->name=htmlspecialchars(strip_tags($this->name));
+   $this->new_price=htmlspecialchars(strip_tags($this->new_price));
+   $this->old_price=htmlspecialchars(strip_tags($this->old_price));        
+   $this->content=htmlspecialchars(strip_tags($this->content));
+   $this->category_id=htmlspecialchars(strip_tags($this->category_id));
+   $this->id=htmlspecialchars(strip_tags($this->id));
 
-    //Bind values
-    $stmt->bindParam(":name", $this->name);
-    $stmt->bindParam(":price", $this->price);
-    $stmt->bindParam(":content", $this->content);
-    $stmt->bindParam(":category_id", $this->category_id);
-    $stmt->bindParam(":created", $this->created);
+   //bind new values
+   $stmt->bindParam(':name', $this->name);
+   $stmt->bindParam(':new_price', $this->new_price);
+   $stmt->bindParam(':old_price', $this->old_price);
+   $stmt->bindParam(':content', $this->content);
+   $stmt->bindParam(':category_id', $this->category_id);
+   $stmt->bindParam(':id', $this->id);
 
     //execute
     if($stmt->execute()){

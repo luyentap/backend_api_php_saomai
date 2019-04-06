@@ -47,7 +47,8 @@ if($num>0){
             "id"            =>  $id,
             "name"          =>  $name,
             "content"   =>  html_entity_decode($content),
-            "price"         =>  $price,
+            "new_price"         =>  $new_price,
+            "old_price"         =>  $old_price,
             "category_id"   =>  $category_id,
             "category_name" =>  $category_name
         );

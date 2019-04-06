@@ -30,7 +30,8 @@ $product_arr = array(
     "id" => $product->id,
     "name" => $product->name,
     "content" => $product->content,
-    "price" => $product->price,
+    "new_price" => $product->new_price,
+    "old_price" => $product->old_price,
     "category_id" => $product->category_id,
     "category_name" => $product->category_name
 );

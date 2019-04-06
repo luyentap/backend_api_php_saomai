@@ -29,7 +29,7 @@ $product->readOne();
 $product_arr = array(
     "id" => $product->id,
     "name" => $product->name,
-    "description" => $product->description,
+    "content" => $product->content,
     "price" => $product->price,
     "category_id" => $product->category_id,
     "category_name" => $product->category_name

@@ -25,7 +25,7 @@ $data = json_decode(file_get_contents("php://input"));
 $product->id            = $data->id;
 $product->name          = $data->name;
 $product->price         = $data->price;
-$product->description   = $data->description;
+$product->content   = $data->content;
 $product->category_id   = $data->category_id;
 
 //update product

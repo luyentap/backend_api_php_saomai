@@ -46,7 +46,7 @@ if($num>0){
         $product_item = array(
             "id"            =>  $id,
             "name"          =>  $name,
-            "description"   =>  html_entity_decode($description),
+            "content"   =>  html_entity_decode($content),
             "price"         =>  $price,
             "category_id"   =>  $category_id,
             "category_name" =>  $category_name

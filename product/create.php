@@ -23,7 +23,7 @@ $data = json_decode(file_get_contents("php://input"));
 //set product values
 $product->name          = $data->name;
 $product->price         = $data->price;
-$product->description   = $data->description;
+$product->content   = $data->content;
 $product->category_id   = $data->category_id;
 $product->created       = date('Y-m-d H:i:s');
 
@@ -44,7 +44,7 @@ function create(){
     $query = "INSERT INTO
               ". $this->table_name ."
               SET
-                name=:name, price=:price, description=:description, category_id=:category_id, created=:created";
+                name=:name, price=:price, content=:content, category_id=:category_id, created=:created";
 
     //Prepare
     $stmt = $this->conn->prepare($query);
@@ -52,14 +52,14 @@ function create(){
     //sanitize
     $this->name=htmlspecialchars(strip_tags($this->name));
     $this->price=htmlspecialchars(strip_tags($this->price));
-    $this->description=htmlspecialchars(strip_tags($this->description));
+    $this->content=htmlspecialchars(strip_tags($this->content));
     $this->category_id=htmlspecialchars(strip_tags($this->category_id));
     $this->created=htmlspecialchars(strip_tags($this->created));
 
     //Bind values
     $stmt->bindParam(":name", $this->name);
     $stmt->bindParam(":price", $this->price);
-    $stmt->bindParam(":description", $this->description);
+    $stmt->bindParam(":content", $this->content);
     $stmt->bindParam(":category_id", $this->category_id);
     $stmt->bindParam(":created", $this->created);
 

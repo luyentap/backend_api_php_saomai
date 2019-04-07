@@ -20,7 +20,7 @@ $product = new Product($db);
 //Query products
 $stmt = $product->read();
 $num = $stmt->rowCount();
-
+// var_dump ($stmt);
 //Check if more than 0 record found
 if($num > 0){
 
@@ -37,21 +37,26 @@ if($num > 0){
         // this will make $row['name'] to
         // just $name only
         extract($row);
-
         $product_item = array(
             "id"            =>  $id,
             "name"          =>  $name,
-            "content"   =>  html_entity_decode($content),
-            "old_price"         =>  $old_price,
-            "new_price"         =>  $new_price,
+            "content"   =>  $content,
+            "old_price"         => (int)$old_price,
+            "new_price"         => (int) $new_price,
             "img" =>$img,
             "category_id"   =>  $category_id,
-            "category_name" =>  $category_name
+            "category_name" =>  $category_name,
+            "color"=> explode(' ', $color),
+            "size"=> explode(' ', $size),
+            "more"=>htmlspecialchars_decode($more, ENT_QUOTES)
+            
+            
         );
 
         array_push($products_arr["records"], $product_item);
     }
 
+    //array to json
     echo json_encode($products_arr);
 }else{
     echo json_encode(

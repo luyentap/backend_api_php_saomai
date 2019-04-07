@@ -20,6 +20,10 @@ class Product
     public $category_id;
     public $category_name;
     public $created;
+    public $color;
+    public $size;
+    public $more;
+
 
     //Constructor with db conn
     public function __construct($db)
@@ -68,7 +72,7 @@ function create(){
 
         //select all
         $query = "SELECT
-                    c.name AS category_name, p.id, p.name, p.content, p.new_price,p.old_price,p.img, p.category_id, p.created
+                    c.name AS category_name, p.id,p.color,p.size, p.more,p.name, p.content, p.new_price,p.old_price,p.img, p.category_id, p.created
                   FROM
                   " . $this->table_name . " p
                   LEFT JOIN

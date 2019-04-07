@@ -13,6 +13,7 @@ class Product
     //Object properties
     public $id;
     public $name;
+    public $img;
     public $content;
     public $new_price ;
     public $old_price ;
@@ -67,7 +68,7 @@ function create(){
 
         //select all
         $query = "SELECT
-                    c.name AS category_name, p.id, p.name, p.content, p.new_price,p.old_price, p.category_id, p.created
+                    c.name AS category_name, p.id, p.name, p.content, p.new_price,p.old_price,p.img, p.category_id, p.created
                   FROM
                   " . $this->table_name . " p
                   LEFT JOIN

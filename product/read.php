@@ -26,7 +26,6 @@ if($num > 0){
 
     //products array
     $products_arr = array();
-    $products_arr["records"] = array();
 
     //retrieve table content
     // Difference fetch() vs fetchAll()
@@ -53,7 +52,7 @@ if($num > 0){
             
         );
 
-        array_push($products_arr["records"], $product_item);
+        array_push($products_arr, $product_item);
     }
 
     //array to json

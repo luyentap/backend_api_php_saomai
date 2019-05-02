@@ -27,6 +27,8 @@ $product->old_price         = $data->old_price;
 $product->content   = $data->content;
 $product->category_id   = $data->category_id;
 $product->created       = date('Y-m-d H:i:s');
+$product->size = $data ->size;
+$product->color=$data->color;
 
 
 //Create product
@@ -40,37 +42,4 @@ if ($product->create()) {
     echo '}';
 }
 
-function create()
-{
 
-    //query insert
-    $query = "INSERT INTO
-              " . $this->table_name . "
-              SET
-                name=:name, price=:price, content=:content, category_id=:category_id, created=:created";
-
-    //Prepare
-    $stmt = $this->conn->prepare($query);
-
-    //sanitize
-    $this->name = htmlspecialchars(strip_tags($this->name));
-    $this->new_price = htmlspecialchars(strip_tags($this->new_price));
-    $this->old_price = htmlspecialchars(strip_tags($this->old_price));
-    $this->content = htmlspecialchars(strip_tags($this->content));
-    $this->category_id = htmlspecialchars(strip_tags($this->category_id));
-    $this->id = htmlspecialchars(strip_tags($this->id));
-
-    //bind new values
-    $stmt->bindParam(':name', $this->name);
-    $stmt->bindParam(':new_price', $this->new_price);
-    $stmt->bindParam(':old_price', $this->old_price);
-    $stmt->bindParam(':content', $this->content);
-    $stmt->bindParam(':category_id', $this->category_id);
-    $stmt->bindParam(':id', $this->id);
-
-    //execute
-    if ($stmt->execute()) {
-        return true;
-    }
-    return false;
-}

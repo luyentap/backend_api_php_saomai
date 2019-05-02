@@ -3,28 +3,21 @@
  *contains properties and methods for "order" database queries.
  */
 
-class Order
+class User
 {
 
     //Db connection and table
     private $conn;
-    private $table_name = 'order';
+    private $table_name = 'user';
 
     //Object properties
     public $id;
-    public $status;
-    public $user_id;
-    public $total;
-    public $time;
-    //detail của người order
-    public $name;
+    public $username;
     public $email;
+    public $password;
     public $phone;
     public $address;
-
-    //mảng : detail order
-    public $shoppingCart;
-
+    public $token;
 
     //Constructor with db conn
     public function __construct($db)
@@ -32,71 +25,36 @@ class Order
         $this->conn = $db;
     }
 
-    //lấy id của order vừa tạo --> chuẩn bị tạo detail order dựa vào id order
-    public function getIdProductRecentlyCreated()
+    public function login()
     {
-        $query = "SELECT * FROM `order` order by id desc limit 0,1";
+
+        $query = "SELECT * FROM `user` WHERE email=:email and password=:password";
 
 
-        //prepare
+        // prepare query
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(":password", $this->password);
 
-        //bind id of product
-        $stmt->bindParam(1, $this->id);
 
-        //execute
+       //execute
         $stmt->execute();
 
         //fetch row
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $row["id"];
-    }
-
-    //tạo detail order
-    public function createOrderDetail()
-    {
-        //lấy thông tin id của bill vừa mới được tạo
-        $idOrder = $this->getIdProductRecentlyCreated();
-        // query to insert record
-
-        $query = "INSERT INTO `orderdetail`
-    SET
-        order_id=:order_id,product_id=:product_id,number=:number";
-
-
-        // prepare query
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":order_id", $idOrder);
-
-        // sanitize
-        // $this->total=htmlspecialchars(strip_tags($this->total));
-        // bind values
-
-        $arrProduct = $this->shoppingCart;
-        for ($i = 0; $i < sizeof($arrProduct); $i++) {
-            $item = $arrProduct[$i];
-            $stmt->bindParam(":product_id", $item->id);
-            $stmt->bindParam(":number", $item->quantity);
-            // execute query
-            
-            if ($stmt->execute()) {
-                
-            }
-            else{
-                return false;
-            }
+        $arr = array();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            array_push($arr, $row);
         }
-        return true;
+        return $arr;
     }
     // create order
-    function createOrder()
+    function register()
     {
 
         // query to insert record
-        $query = "INSERT INTO `order`
+        $query = "INSERT INTO `user`
             SET
-                total=:total,status=:status,user_id=:user_id,name=:name,phone=:phone,address=:address,email=:email";
+                name=:name,email=:email,password=:password,phone=:phone,address=:address";
 
 
         // prepare query
@@ -105,13 +63,11 @@ class Order
         // sanitize
         // $this->total=htmlspecialchars(strip_tags($this->total));
         // bind values
-        $stmt->bindParam(":total", $this->total);
-        $stmt->bindParam(":status", $this->status);
-        $stmt->bindParam(":user_id", $this->user_id);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":phone", $this->phone);
+        $stmt->bindParam(":password", $this->password);
         $stmt->bindParam(":address", $this->address);
+        $stmt->bindParam(":phone", $this->phone);
 
 
         // execute query
@@ -125,7 +81,7 @@ class Order
     {
 
         //select all
-        $query = "SELECT * FROM  `order` order by time desc ";
+        $query = "SELECT * FROM  `order` ";
 
         //prepare
         $stmt = $this->conn->prepare($query);

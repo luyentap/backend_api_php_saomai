@@ -37,7 +37,7 @@ function create(){
     $query = "INSERT INTO
                 " . $this->table_name . "
             SET
-                name=:name, new_price=:new_price,old_price=:old_price, content=:content, category_id=:category_id, created=:created";
+                name=:name, new_price=:new_price,old_price=:old_price, content=:content, category_id=:category_id,color=:color,size=:size";
  
     // prepare query
     $stmt = $this->conn->prepare($query);
@@ -48,7 +48,6 @@ function create(){
     $this->old_price=htmlspecialchars(strip_tags($this->old_price));
     $this->content=htmlspecialchars(strip_tags($this->content));
     $this->category_id=htmlspecialchars(strip_tags($this->category_id));
-    $this->created=htmlspecialchars(strip_tags($this->created));
  
     // bind values
     $stmt->bindParam(":name", $this->name);
@@ -56,7 +55,9 @@ function create(){
     $stmt->bindParam(":old_price", $this->old_price);
     $stmt->bindParam(":content", $this->content);
     $stmt->bindParam(":category_id", $this->category_id);
-    $stmt->bindParam(":created", $this->created);
+        $stmt->bindParam(':size', $this->size);
+    $stmt->bindParam(':color', $this->color);
+
  
     // execute query
     if($stmt->execute()){
@@ -139,6 +140,8 @@ function create(){
                         new_price=:new_price,
                         old_price=:old_price,
                         content=:content,
+                        color=:color,
+                        size=:size,
                         category_id=:category_id
                     WHERE
                         id=:id";
@@ -159,6 +162,8 @@ function create(){
         $stmt->bindParam(':new_price', $this->new_price);
         $stmt->bindParam(':old_price', $this->old_price);
         $stmt->bindParam(':content', $this->content);
+        $stmt->bindParam(':size', $this->size);
+        $stmt->bindParam(':color', $this->color);
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':id', $this->id);
 

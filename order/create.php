@@ -25,6 +25,12 @@ $order->total          = $data->total;
 $order->status = $data->status;
 $order->user_id = $data->user_id;
 
+$order->name = $data->name;
+$order->email = $data->email;
+$order->phone = $data->phone;
+$order->address = $data->address;
+
+
 //Create order
 if ($order->createOrder()) {
     echo '{';

@@ -26,8 +26,9 @@ $product->id            = $data->id;
 $product->name          = $data->name;
 $product->new_price         = $data->new_price;
 $product->old_price         = $data->old_price;
-
 $product->content   = $data->content;
+$product->color   = $data->color;
+$product->size   = $data->size;
 $product->category_id   = $data->category_id;
 
 //update product

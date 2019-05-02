@@ -26,7 +26,6 @@ $stmt = $order->read();
 
     //array
     $arr = array();
-    $arr["records"] = array();
 
     //retrieve table content
     // Difference fetch() vs fetchAll()
@@ -37,20 +36,24 @@ $stmt = $order->read();
         // this will make $row['name'] to
         // just $name only
         extract($row);
+        if($status==0)
+            $status = "chưa giao";
+        else
+            $status ="đã giao";
         $item = array(
             "id"            =>  $id,
             "status"        => $status,
             "user_id"       => $user_id,
             "total"=>$total,
             "time"=>$time,
-            // "product_id"=>$product_id,
-            // "number"=>$number,
-            // "color"=>$color,
-            // "size"=>$size          
+            "name"=>$name,
+            "email"=>$email,
+            "address"=>$address,
+            "phone"=>$phone       
             
         );
 
-        array_push($arr["records"], $item);
+        array_push($arr, $item);
     }
 
     //array to json

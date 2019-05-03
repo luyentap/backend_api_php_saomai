@@ -77,11 +77,11 @@ class User
         return false;
     }
     //Read order
-    function read()
+    function list()
     {
 
         //select all
-        $query = "SELECT * FROM  `order` ";
+        $query = "SELECT * FROM  `user` where role=0 ";
 
         //prepare
         $stmt = $this->conn->prepare($query);
@@ -89,7 +89,12 @@ class User
         //execute
         $stmt->execute();
 
-        return $stmt;
+        //fetch row
+        $arr = array();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            array_push($arr, $row);
+        }
+        return $arr;
     }
     //Read detail order
     function read_detail()

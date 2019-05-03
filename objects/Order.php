@@ -161,6 +161,36 @@ class Order
         return $arr;
     }
 
+//Read detail order của user đó:personal
+    function read_detail_user()
+    {
+
+        //select all
+        // $query = "select * from order join orderdetail on order.id=orderdetail.order_id";
+        $query = "SELECT * FROM `order`  where user_id =?";
+
+
+        //prepare
+        $stmt = $this->conn->prepare($query);
+
+        //bind id of product
+        $stmt->bindParam(1, $this->user_id);
+
+        //execute
+        $stmt->execute();
+
+        //fetch row
+        $arr = array();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+           
+            if($row["status"]=="0"){
+
+                $row["status"] == "đang chờ";
+            } 
+            array_push($arr, $row);
+        }
+        return $arr;
+    }
 
 
     //update product

@@ -37,9 +37,12 @@ $stmt = $order->read();
         // just $name only
         extract($row);
         if($status==0)
-            $status = "chưa giao";
-        else
+            $status = "đang chờ xử lý";
+        if($status==1)
+            $status ="đã xử lý";
+        if($status==2)
             $status ="đã giao";
+         
         $item = array(
             "id"            =>  $id,
             "status"        => $status,

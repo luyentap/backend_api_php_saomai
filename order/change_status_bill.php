@@ -9,22 +9,31 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 //Req includes
 include_once '../config/database.php';
-include_once '../objects/User.php';
-//New instances
+include_once '../objects/Order.php';
+
+//Db conn and instances
 $database = new Database();
 $db = $database->getConnection();
 
-$user = new User($db);
+$order = new Order($db);
 
 //Get post data
 $data = json_decode(file_get_contents("php://input"));
 
-//Set ID of order   to be edited
-$user->email = $data->email;
-$user->password = $data->password;
-//Read orders of edited order
-$arr=$user->login();
+//set order values
+
+$order->id = $data->id;
+$order->status = $data->status;
 
 
-print_r(json_encode($arr));
-	
+//Create order
+if ($order->updateStatusBill()) {
+    echo '{';
+    echo '"message": "order was updated."';
+    echo '}';
+} else {
+    echo '{';
+    echo '"message": "Unable to update order."';
+    echo '}';
+}
+

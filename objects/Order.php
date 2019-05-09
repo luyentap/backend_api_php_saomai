@@ -182,15 +182,52 @@ class Order
         //fetch row
         $arr = array();
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-           
+            $status= "";
             if($row["status"]=="0"){
-
-                $row["status"] == "đang chờ";
-            } 
-            array_push($arr, $row);
+              $status = "Đang chờ xử lý";
+            }  
+            if($row["status"]=="1"){
+              $status = "Đã xử lý";
+            }
+            if($row["status"]=="2"){
+              $status = "Đã giao";
+            }  
+          $array = array("status"=>$status);
+            array_push($arr, array_replace($row, $array));
         }
         return $arr;
     }
+
+function updateStatusBill()
+{
+  // UPDATE `order` SET `id`=[value-1],`status`=[value-2] WHERE `id`=
+  # code...
+          $query = "UPDATE `order` SET  `status`=:status 
+          WHERE `id`=:id";
+
+        //prepare
+        $stmt = $this->conn->prepare($query);
+
+        //bind id of product
+        $stmt->bindParam(":status", $this->status);
+        $stmt->bindParam(":id", $this->id);
+
+        //execute
+        if($stmt->execute()) 
+          return true;
+        else
+          return false;
+
+}
+
+
+
+
+
+
+
+
+
 
 
     //update product

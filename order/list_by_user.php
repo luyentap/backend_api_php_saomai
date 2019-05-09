@@ -19,10 +19,9 @@ $db = $database->getConnection();
 
 $order = new Order($db);
 
-//Set ID of order   to be edited
+//Set ID of order  
 $order->user_id = isset($_GET['user_id']) ? $_GET['user_id']: die;
-//Read orders of edited order
+//Read orders 
 $arr=$order->read_detail_user();
-
 
 print_r(json_encode($arr));
